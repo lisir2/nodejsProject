@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>博客</title>
+		<link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			html,body {
+				background-color: #e1e1e1;
+			}
+			
+			@font-face {
+				font-family: 布丁体;
+				src: url(../public/font/字魂27号-布丁体.ttf);
+			}
+			
+			.nav {
+				padding: 0 10%;
+				height: 60px;
+				background: #444;
+			}
+			
+			.head {
+				height: 100%;
+				float: right;
+				position: relative;
+			}
+			
+			.head_img {
+				height: 100%;
+				position: relative;
+				z-index: 10;
+			}
+			
+			.head_img img {
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+				margin-top: 10px;
+				transition: all 0.5s linear;
+			}
+			
+			.head_img>div {
+				width: 180px;
+				height: 200px;
+				position: absolute;
+				left: -70px;
+				top: 60px;
+				z-index: -1;
+				display: none;
+				background-color: white;
+				box-shadow: 2px 2px 2px 4px rgba(0, 0, 0, 0.1);
+			}
+			
+			.head_img>div>div {
+				height: 30px;
+			}
+			
+			.head_img>div>p {
+				text-align: center;
+				font-family: 布丁体;
+			}
+			
+			.out {
+				position: absolute;
+				right: 10px;
+				bottom: 10px;
+				color: rgb(180, 180, 180);
+				font-size: 15px;
+				text-decoration: none;
+			}
+			
+			.nav_list {
+				float: left;
+			}
+			
+			.nav_list li {
+				list-style: none;
+				display: flex;
+			}			
+			.nav_list a {
+				text-align: center;
+				text-decoration: none;
+				color: white;
+				padding: 7px 9px;
+				margin-top:13px;
+				margin-left: 3%;
+				white-space: nowrap;
+			}
+			/*博客内容*/
+			
+			.blogs_content {
+				width: 80%;
+				background-color: white;
+				margin: 20px auto;
+				border-radius: 5px;
+				padding: 10px 0;
+			}
+			
+			.chunk {
+				padding: 8px 15px 10px;
+				/*font-family: 布丁体;*/
+				border-bottom: 1px solid #e5e5e5;
+			}
+			
+			.title h3 {
+				margin-bottom: 5px;
+			}
+			
+			.title span:nth-of-type(1),
+			.title span:nth-of-type(3) {
+				width: 5px;
+				height: 5px;
+				display: inline-block;
+				border-radius: 50%;
+				vertical-align: middle;
+				background-color: #838383;
+				margin:0 5px;
+			}
+			
+			.title>p {
+				font-size: 13px;
+				color: #838383;
+			}
+			
+			.content {
+				text-indent: 2em;
+				margin-top: 20px;
+				font-size: 15px;
+			}
+			
+			.Comments {
+				width: 80%;
+				background-color: white;
+				margin: 20px auto;
+				border-radius: 5px;
+				padding: 0 0 10px 0;
+			}
+			.Comments p{
+				line-height: 30px;
+				margin-bottom: 0!important;
+			}
+			.Comments>div:nth-of-type(1) {
+				padding: 10px;
+				background-color: #f6f6f6;
+				border-radius: 3px 3px 0 0;
+			}
+			
+			.Comments>div:nth-of-type(1)>p {
+				color: #444;
+			}
+			
+			.userCommon {
+				padding: 10px;
+				border: 1px solid #f0f0f0;
+			}
+			
+			.userCommon img {
+				width: 30px;
+				height: 30px;
+				border-radius: 4px;
+				vertical-align: middle;
+			}
+			
+			.userCommon span {
+				font-size: 13px;
+				margin-left: 10px;
+			}
+			
+			.commonContent {
+				margin-left: 50px;
+			}
+			
+			.sendComment {
+				padding: 10px 0;
+			}
+			.sendComment{
+				padding: 1%;
+			}
+			.sendComment input {
+				width: 79%;
+				height: 40px;
+				border: 1px solid #ddd;
+				border-radius: 2px;
+				color: #aaa;
+				font-size: 14px;
+				padding: 10px;
+				vertical-align: middle;
+				border-radius: 4px;
+				box-sizing: border-box;
+			}
+			
+			.sendComment button {
+				display: inline-block;
+				width: 15%;
+				border: 0;
+				background-color: rgb(100, 155, 10);
+				color: white;
+				margin-left: 2%;
+				line-height: 38px;
+				border-radius: 4px;
+			}
+		</style>
+	</head>
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
+	<body>
+		<div class="nav">
+			<div class="nav_list">
+				<li>
+						<a href="/home">首页</a>
+						<a href="/blogs">发起博客</a>
+						<a href="/chat">在线聊天</a>
+				</li>
+			</div>
+			<div class="head">
+				<div class="head_img">
+					<a href="/edit"><img src="{{ ret.headPic }}" alt="" /></a>
+					<div>
+						<div></div>
+						<p>{{ ret.userName }}</p>
+						<a href="/out" class="out">退出</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="blogs_content">
+			<div class="title chunk">
+				<h3 class="blogs_title"></h3>
+				<p><span></span>作者：<span class="userName"></span><span></span>发布时间：<span class="date"></span></p>
+			</div>
+			<div class="chunk" style="border-bottom: 0;">
+				<h3>内容</h3>
+				<p class="content"></p>
+			</div>
+		</div>
+		<div class="Comments">
+			<div>
+				<p>回复</p>
+			</div>
+			<div class="user_Comment"></div>
+			<div class="sendComment">
+				<input type="text" placeholder="请输入留言" />
+				<button onclick="sendComment()">发送</button>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		
+		$('.head_img').hover(function() {
+			$('.head_img img').css({
+				'marginTop': '40px',
+				'transform': 'scale(1.2)',
+				'border': 'solid 2px white'
+			});
+			$('.head_img div').fadeIn(1000)
+		}, function() {
+			$('.head_img img').css({
+				'marginTop': '10px',
+				'transform': 'scale(1)',
+				'border': '0'
+			});
+			$('.head_img div').css('display', 'none')
+		})
+
+		//获取用户id查询发起的博客内容
+		var id = window.location.search.substr(1).split('=')[1];
+
+		//渲染博客内容
+		$.ajax({
+			type: "post",
+			url: "/blogsContent",
+			data: {
+				id: id
+			},
+			dataType: 'json',
+			success: function(res) {
+				if(res.error) {
+					alert(res.message)
+				} else {
+					console.log(res)
+					$('.date').html(time(parseInt(res.content.Date)));
+					$('.content').html(res.content.blogsContent)
+					$('.userName').html(res.userName)
+					$('.blogs_title').html(res.content.blogsTitle)
+					if(res.content.commentList) {
+						
+					}
+				}
+			}
+		});
+
+		//渲染博客评论模块
+		$.ajax({
+			type: "post",
+			url: "/userComment",
+			data: {
+				commentId: id,
+			},
+			dataType: 'json',
+			success: function(res) {
+				var content = ''
+				if(res.content.commentList.length != 0) {
+					for(var i = 0; i < res.content.commentList.length; i++) {
+						content += '<div class="userCommon"><img src="'+ res.content.commentList[i].headPic +'" alt="" /><span>'+ res.content.commentList[i].userName +'</span><span>'+ time(parseInt(res.content.commentList[i].Date)) +'</span><div class="commonContent">'+ res.content.commentList[i].content +'</div></div>'
+					}
+				}
+				$('.user_Comment').html(content);
+			}
+		});
+
+		//用户发起评论
+		function sendComment() {
+			$.ajax({
+				type: "post",
+				url: "/userComment",
+				data: {
+					content: $('.sendComment input').val(),
+					commentId: id,
+				},
+				dataType: 'json',
+				success: function(res) {
+					if(res.error) {
+						alert(res.message)
+					} else {
+						console.log(res)
+						$('.user_Comment').append($('<div class="userCommon"><img src="'+ res.content.headPic +'" alt="" /><span>'+ res.content.userName +'</span><span>'+ time(parseInt(res.content.Date)) +'</span><div class="commonContent">'+ res.content.content +'</div></div>'))
+					}
+				}
+			});
+		}
+		
+		function time(time){
+			var time = new Date(time);
+			var y = time.getFullYear();
+			var m = time.getMonth()+1;
+			var d = time.getDate();
+			var h = time.getHours();
+			var mm = time.getMinutes();
+			var s = time.getSeconds();
+			return y + ' ' + m + '-' + d + "   " + h + ':' + mm + ':' + s;
+		}
+	</script>
+
+</html>

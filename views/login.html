@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>登陆</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			body,
+			html {
+				width: 100%;
+				height: 100%;
+				min-width: 1500px;
+			}
+			
+			body {
+				background: url(../public/image/bizhi8.jpg) no-repeat;
+				background-size: 100% 100%;
+			}
+			
+			.form {
+				width: 400px;
+				height: 100px;
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				margin: auto;
+			}
+			
+			.form input {
+				width: 100%;
+				height: 40px;
+				border: 1px solid #ddd;
+				border-radius: 2px;
+				color: #aaa;
+				font-size: 14px;
+				padding: 10px;
+				vertical-align: middle;
+				border-radius: 4px;
+				box-sizing: border-box;
+			}
+			
+			.button {
+				display: flex;
+				justify-content: space-between;
+			}
+			
+			.button button {
+				width: 40%;
+				height: 40px;
+				border: 1px solid #0381aa;
+			}
+			
+			.button button:nth-of-type(1) {
+				color: #fff;
+				background-color: #00a7de;
+			}
+			
+			.button button:nth-of-type(2) {
+				color: #555;
+				border: 1px solid #ccc;
+			}
+			
+			.form>img {
+				width: 100%;
+				position: absolute;
+				top: -250px;
+				z-index: -1;
+			}
+			
+			.password,
+			.zhanghao {
+				position: relative;
+				margin-bottom: 20px;
+			}
+			
+			.password>img {
+				height: 70%;
+				position: absolute;
+				top: 0;
+				right: 10px;
+				bottom: 0;
+				margin: auto;
+			}
+		</style>
+	</head>
+
+	<body>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<form onsubmit="return false" class="form">
+			<img src="../public/image/toukan.png" alt="" />
+			<div class="zhanghao">
+				<input type="text" placeholder="请输入你的账号" name="zhanghao" />
+			</div>
+			<div class="password">
+				<input type="password" placeholder="请输入密码" name="Password" />
+				<img src="../public/image/xiaohuangren.png" alt="" onclick="password()" />
+			</div>
+			<div class="button">
+				<button type="button" onclick="Login()">确定登陆</button>
+				<button type="button" onclick="window.location.href = '/register'">注册</button>
+			</div>
+		</form>
+	</body>
+	<script type="text/javascript">
+		var bol = true;
+
+		function password() {
+			if(bol) {
+				$('.password img').prop('src', '../public/image/xiaohuangren1.png');
+				$('.password input').prop('type', 'text');
+				bol = !bol;
+			} else {
+				$('.password img').prop('src', '../public/image/xiaohuangren.png');
+				bol = !bol;
+				$('.password input').prop('type', 'password');
+			}
+		}
+
+		//登陆
+		function Login() {
+			if($('.zhanghao input').val() == '') {
+				alert('请输入账号');
+			} else if($('.password input').val() == '') {
+				alert('请输入密码');
+			} else {
+				$.ajax({
+					type: "post",
+					url: "/login",
+					data: {
+						zhanghao: $('.zhanghao input').val(),
+						Password: $('.password input').val()
+					},
+					async: true,
+					dataType: 'json',
+					success: function(data) {
+						if(data.error) {
+							alert(data.message)
+						} else {
+							window.location.href = '/home'
+						}
+					}
+				});
+			}
+		}
+
+		/*
+		 *
+		 * 判断PC端与WAP端
+		 */
+		var mobile_bs = {
+			versions: function() {
+				var u = navigator.userAgent;
+				return {
+					trident: u.indexOf('Trident') > -1, //IE内核
+					presto: u.indexOf('Presto') > -1, //opera内核
+					webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+					gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+					mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/) && u.indexOf('QIHU') && u.indexOf('QIHU') > -1 && u.indexOf('Chrome') < 0, //是否为移动终端
+					ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+					android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+					iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+					iPad: u.indexOf('iPad') > -1, //是否iPad
+					webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+				}
+			}()
+		};
+
+		if(mobile_bs.versions.mobile) {
+			if(mobile_bs.versions.android || mobile_bs.versions.iPhone || mobile_bs.versions.iPad || mobile_bs.versions.ios) {
+				window.location.href = '/R_login'
+			}
+		}
+	</script>
+
+</html>

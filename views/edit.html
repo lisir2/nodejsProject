@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>个人信息</title>
+		<link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			@font-face {
+				font-family: 布丁体;
+				src: url(../public/font/字魂27号-布丁体.ttf);
+			}
+			
+			.nav {
+				padding: 0 10%;
+				height: 60px;
+				background: #444;
+			}
+			
+			.head {
+				height: 100%;
+				float: right;
+				position: relative;
+			}
+			
+			.head_img {
+				height: 100%;
+				position: relative;
+				z-index: 10;
+			}
+			
+			.head_img img {
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+				margin-top: 10px;
+				transiti
+				
+				on: all 0.5s linear;
+			}
+			
+			.head_img>div {
+				width: 180px;
+				height: 200px;
+				position: absolute;
+				left: -70px;
+				top: 60px;
+				z-index: -1;
+				display: none;
+				background-color: white;
+				box-shadow: 2px 2px 2px 4px rgba(0, 0, 0, 0.1);
+			}
+			
+			
+			.head_img>div>div {
+				height: 30px;
+			}
+			
+			.head_img>div>p {
+				text-align: center;
+				font-family: 布丁体;
+			}
+			
+			.edit_message {
+				width: 70%;
+				margin: 20px auto 0;
+				min-width: 1200px;
+			}
+			
+			.edit_message embed {
+				float: left;
+				margin-top: -10px;
+			}
+			
+			.edit_message>div {
+				width: auto;
+				margin-left: 280px;
+			}
+			
+			.edit_pic {
+				width: 320px;
+				margin: auto;
+				display: flex;
+				justify-content: space-around;
+			}
+			
+			.edit_pic>div:nth-of-type(1) {
+				width: 150px;
+				height: 150px;
+				padding-right: 30px;
+				border-right: solid 1px rgb(180, 180, 180);
+			}
+			
+			.edit_pic input {
+				width: 150px;
+				height: 150px;
+				opacity: 0;
+				position: absolute;
+			}
+			
+			.edit_pic>div:nth-of-type(1) img {
+				width: 100%;
+				height: 100%;
+			}
+			
+			.edit_pic>div:nth-of-type(2) img {
+				width: 80px;
+				height: 80px;
+				border-radius: 50%;
+				margin-top: 20px;
+			}
+			
+			.edit_pic>div:nth-of-type(2) p {
+				text-align: center;
+				color: rgb(180, 180, 180);
+			}
+			
+			.edit_message>div button {
+				padding: 10px 20px;
+				border: 0;
+				background-color: rgb(100, 155, 10);
+				display: block;
+				margin: 30px auto 0;
+				color: white;
+			}
+			
+			.out {
+				position: absolute;
+				right: 10px;
+				bottom: 10px;
+				color: rgb(180, 180, 180);
+				font-size: 15px;
+				text-decoration: none;
+			}
+			
+			.nav_list {
+				float: left;
+			}
+			
+			.nav_list li {
+				list-style: none;
+				display: flex;
+			}
+			
+			.nav_list span {
+				line-height: 60px;
+			}
+			
+			.nav_list a {
+				text-decoration: none;
+				color: white;
+				padding: 7px 9px;
+				margin-top:13px;
+				margin-left: 3%;
+				white-space: nowrap;
+			}
+			
+			.edit_name>p span {
+				font-family: 布丁体;
+			}
+			
+			.edit_name {
+				padding: 30px;
+				border: solid 2px rgb(180, 180, 180);
+				margin-top: 10px;
+			}
+			
+			.edit_name>div {
+				margin-top: 15px;
+			}
+			
+			.edit_name input {
+				height: 40px;
+				border: 1px solid #ddd;
+				border-radius: 2px;
+				color: #aaa;
+				font-size: 14px;
+				padding: 10px;
+				vertical-align: middle;
+				border-radius: 4px;
+				box-sizing: border-box;
+			}
+			.edit_Password{
+				padding: 30px;
+				border: solid 2px rgb(180, 180, 180);
+				margin-top: 10px;
+			}
+			.edit_Password input{
+				height: 40px;
+				border: 1px solid #ddd;
+				border-radius: 2px;
+				color: #aaa;
+				font-size: 14px;
+				padding: 10px;
+				vertical-align: middle;
+				border-radius: 4px;
+				box-sizing: border-box;
+			}
+			.Out{
+				display: none;
+			}
+		</style>
+	</head>
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/jquery.form/4.2.1/jquery.form.js" type="text/javascript" charset="utf-8"></script>
+
+	<body>
+		<div class="nav">
+			<div class="nav_list">
+				<li>
+						<a href="/home">首页</a>
+						<a href="/blogs">发起博客</a>
+						<a href="/chat">在线聊天</a>
+				</li>
+			</div>
+			<div class="head">
+				<div class="head_img">
+					<a href="/edit"><img src="{{ ret.headPic }}" alt="" /></a>
+					<div>
+						<div></div>
+						<p>{{ ret.userName }}</p>
+						<a href="/out" class="out">退出</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="edit_message">
+			<embed class="cangshu" type="application/x-shockwave-flash" src="http://cdn.abowman.com/widgets/hamster/hamster.swf" width="250" height="210" id="flashID" name="flashID" bgcolor="#FFFFFF" quality="high" flashvars="up_backgroundColor=FFFFFF" wmode="opaque" allowscriptaccess="always">
+			<div>
+				<div style="padding: 30px;border: solid 2px rgb(180,180,180);">
+					<div class="edit_pic">
+						<div>
+							<form id="form" action="javascript:void(0)" method="post" enctype="multipart/form-data">
+								<input type="file" onchange="editPic(event)" name="pic" />
+							</form>
+							<img class="edit_img" src="../public/image/editPic.jpg" alt="" />
+						</div>
+						<div>
+							<img src="{{ ret.headPic }}" alt="" />
+							<p>当前头像</p>
+						</div>
+					</div>
+					<button onclick="upImg()">确定修改</button>
+				</div>
+				<div class="edit_name">
+					<p>当前昵称：<span>{{ ret.userName }}</span></p>
+					<div>
+						<span>修改昵称：</span>
+						<input type="text" placeholder="输入您要修改的昵称" maxlength="8" />
+					</div>
+					<button onclick="editName()">确定修改</button>
+				</div>
+				<div class="edit_Password">
+					<span>输入当前密码：</span><input type="password"/><br /><br />
+					<span>输入修改密码：</span><input type="text" placeholder="请输入要修改的密码"/>
+					<button onclick="editPassword()">确定修改</button>
+				</div>
+				<div class="edit_Password Out">
+					<button style="background-color: rgb(180,180,180);" onclick="out()">退出登陆</button>
+				</div>
+			</div>
+
+		</div>
+
+	</body>
+	<script type="text/javascript">
+		//头像移入效果
+		$('.head_img').hover(function() {
+			$('.head_img img').css({
+				'marginTop': '40px',
+				'transform': 'scale(1.2)',
+				'border': 'solid 2px white'
+			});
+			$('.head_img div').fadeIn(1000)
+		}, function() {
+			$('.head_img img').css({
+				'marginTop': '10px',
+				'transform': 'scale(1)',
+				'border': '0'
+			});
+			$('.head_img div').css('display', 'none')
+		})
+
+		var baseImg = '';
+
+		//选择修改头像
+		function editPic(e) {
+			var file = e.target.files[0];
+			if(!/image\/\w+/.test(file.type)) {
+				alert("请确保文件为图像类型");
+				return false;
+			}
+			var reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onload = function() {
+				baseImg = this.result;
+				$('.edit_img').prop('src', this.result)
+			}
+		}
+		
+		//修改昵称
+		function editName(){
+			$.ajax({
+				type:"post",
+				url:"/editName",
+				data:{
+					newName:$('.edit_name input').val(),
+				},
+				dataType:'json',
+				success:function(res){
+					if(res.error){
+						alert('修改失败')
+					}else{
+						$('.edit_name p span').html(res.userName);
+						$('.head_img div p').html(res.userName);
+						alert('修改成功')
+					}
+				}
+			});
+		}
+		
+		//修改密码
+		function editPassword(){
+			console.log($('.edit_Password input').eq(0).val(),$('.edit_Password input').eq(1).val())
+			if($('.edit_Password input').eq(0).val() == ''){
+				alert('请输入要修改的密码')
+			}else if($('.edit_Password input').eq(1).val() == ''){
+				alert('请输入新密码')
+			}else if($('.edit_Password input').eq(0).val() == $('.edit_Password input').eq(1).val()){
+				alert('新密码和旧密码重复')
+			}else{
+				$.ajax({
+					type:"post",
+					url:"/editPassword",
+					data:{
+						oldPassword: $('.edit_Password input').eq(0).val(),
+						newPassword: $('.edit_Password input').eq(1).val()
+					},
+					dataType:'json',
+					success:function(res){
+						if(res.error){
+							alert('密码不正确')
+						}else{
+							console.log(res)
+						}
+					}
+				});
+			}
+			
+		}
+
+		//点击上传图片
+		function upImg() {
+			//获取form表单提交数据的 响应结果 通过 AjaxSubmit 第三方插件
+			//			$('#form').ajaxSubmit({
+			//				type:"post",
+			//				url:"/upHead",
+			//				success:function(res){
+			//					if(res.error){
+			//						alert('修改失败')
+			//					}else{
+			//						$('.head_img img').attr('src',res.imagePath);
+			//						$('.edit_pic div').eq(1).find('img').attr('src',res.imagePath);
+			//						$('.edit_pic div').eq(0).find('img').attr('src','../public/image/editPic.jpg');
+			//						alert('修改成功')
+			//					}
+			//				}
+			//			});
+
+			//也可以传一个fromData去上传图片
+			var fromData = new FormData($("#form")[0]);
+			$.ajax({
+				url: '/upHead',
+				type: 'post',
+				data: fromData,
+				async: false,
+				cache: false,
+				processData: false, //告诉jquery不要去处理请求的数据格式
+				contentType: false, //告诉jquery不要设置请求头的类型
+				success: function(res) {
+					if(res.error) {
+						alert('修改失败')
+					} else {
+						$('.head_img img').attr('src', res.imagePath);
+						$('.edit_pic div').eq(1).find('img').attr('src', res.imagePath);
+						$('.edit_pic div').eq(0).find('img').attr('src', '../public/image/editPic.jpg');
+						alert('修改成功')
+					}
+				}
+			});
+		}
+		
+		//退出登录
+		function out(){
+			window.location.href = '/out';
+		}
+		
+		/*
+		 *
+		 * 判断PC端与WAP端
+		 */
+		var mobile_bs = {
+			versions: function() {
+				var u = navigator.userAgent;
+				return {
+					trident: u.indexOf('Trident') > -1, //IE内核
+					presto: u.indexOf('Presto') > -1, //opera内核
+					webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+					gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+					mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/) && u.indexOf('QIHU') && u.indexOf('QIHU') > -1 && u.indexOf('Chrome') < 0, //是否为移动终端
+					ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+					android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+					iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+					iPad: u.indexOf('iPad') > -1, //是否iPad
+					webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+				}
+			}()
+		};
+
+		if(mobile_bs.versions.mobile) {
+			if(mobile_bs.versions.android || mobile_bs.versions.iPhone || mobile_bs.versions.iPad || mobile_bs.versions.ios) {
+				$('.cangshu').css('display','none');
+				$('.edit_message>div').css({
+					'width':'100%',
+					'marginLeft':'0',
+				});
+				$('.edit_message>div>div').css('width','100%');
+				$('.edit_message').css({
+					'minWidth':'90%',
+					'margin':'20px auto 0'
+				});
+				$('.edit_pic').css('width','100%');
+				$('.edit_pic>div:eq(0)').css({
+					'height':'auto',
+					'marginRight':'15px'
+				});
+				$('.edit_pic>div:eq(0) img').css({
+					'height':'auto'
+				});
+				$('.edit_pic>div:eq(1) img').css({
+					'marginTop':'0'
+				});
+				$('.Out').css('display','block')
+				$(".head_img").unbind("mouseenter").unbind("mouseleave");
+			}
+		}
+	</script>
+
+</html>

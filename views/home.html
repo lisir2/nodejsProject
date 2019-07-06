@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>首页</title>
+		<link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			@font-face {
+				font-family: 布丁体;
+				src: url(../public/font/字魂27号-布丁体.ttf);
+			}
+			
+			.nav {
+				padding: 0 10%;
+				height: 60px;
+				background: #444;
+			}
+			
+			.head {
+				height: 100%;
+				float: right;
+				position: relative;
+			}
+			
+			.head_img {
+				height: 100%;
+				position: relative;
+				z-index: 10;
+			}
+			
+			.head_img img {
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+				margin-top: 10px;
+				transition: all 0.5s linear;
+			}
+			
+			.head_img>div {
+				width: 180px;
+				height: 200px;
+				position: absolute;
+				left: -70px;
+				top: 60px;
+				z-index: -1;
+				display: none;
+				background-color: white;
+				box-shadow: 2px 2px 2px 4px rgba(0, 0, 0, 0.1);
+			}
+			
+			.head_img>div>div {
+				height: 30px;
+			}
+			
+			.head_img>div>p {
+				text-align: center;
+				font-family: 布丁体;
+			}
+			
+			.out {
+				position: absolute;
+				right: 10px;
+				bottom: 10px;
+				color: rgb(180, 180, 180);
+				font-size: 15px;
+				text-decoration: none;
+			}
+			
+			.nav_list {
+				float: left;
+			}
+			
+			.nav_list li {
+				list-style: none;
+				display: flex;
+			}
+			
+			.nav_list a {
+				text-align: center;
+				text-decoration: none;
+				color: white;
+				padding: 7px 9px;
+				margin-top:13px;
+				margin-left: 3%;
+				white-space: nowrap;
+			}
+			.nav_style {
+				background-color: #80bd01;
+				border-radius: 4px;
+			}
+			/*评论*/
+			
+			.common {
+				width: 80%;
+				margin: auto;
+			}
+			
+			.commonList {
+				padding: 15px 10px;
+			}
+			
+			.commonList>span {
+				padding: 4px;
+				margin-left: 15px;
+				cursor: pointer;
+			}
+			
+			.commonStyle {
+				background-color: #80bd01;
+				border-radius: 5px;
+				color: white;
+			}
+			.sort>div {
+				padding: 10px;
+				border-bottom: solid 1px #f6f6f6;
+				overflow: hidden;
+			}
+			
+			.sort>div>img {
+				width: 30px;
+				height: 30px;
+				vertical-align: middle;
+				border-radius: 4px;
+				float: left;
+				margin-right: 15px;
+			}
+			
+			.sort>div>a {
+				width: auto;
+				text-decoration: none;
+				color: black;
+			}
+			
+			.sort>div>a:hover {
+				border-bottom: rgb(80, 80, 80) solid 1px;
+			}
+			
+			.sort>div>span {
+				float: right;
+			}
+			
+			
+		</style>
+	</head>
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	<script src="./node_modules/bootstrap/dist/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+
+	<body>
+		<div class="nav">
+			<div class="nav_list">
+				<li>
+					<a href="/home" class="nav_style">首页</a>
+					<a href="/blogs">发起博客</a>
+					<a href="/chat">在线聊天</a>
+				</li>
+			</div>
+			<div class="head">
+				<div class="head_img">
+					<a href="/edit"><img src="{{ ret.headPic }}" alt="" /></a>
+					<div>
+						<div></div>
+						<p>{{ ret.userName }}</p>
+						<a href="/out" class="out">退出</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div height="120" width="150" align="center"><embed height="120" width="150" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" src="http://chabudai.sakura.ne.jp/blogparts/honehoneclock/honehone_clock_wh.swf" quality="high" autostart="1" wmode="transparent"></div>
+			<!--<embed type="application/x-shockwave-flash" src="http://cdn.abowman.com/widgets/hamster/hamster.swf" width="250" height="210" id="flashID" name="flashID" bgcolor="#FFFFFF" quality="high" flashvars="up_backgroundColor=FFFFFF" wmode="opaque" allowscriptaccess="always">-->
+		</div>
+		<div class="common">
+			<div class="commonList" style="background-color: #f6f6f6;border-radius: 5px 5px 0 0;">
+				<span class="commonStyle">最火</span>
+				<span>最新</span>
+			</div>
+			<div class="sort">
+
+			</div>
+		</div>
+		<nav class="Page" aria-label="Page navigation" style="text-align: center;display: none;">
+			<ul class="pagination">
+				<li class="previous">
+					<a href="###" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+				<li class="next">
+					<a href="###" aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
+			</ul>
+		</nav>
+	</body>
+	<script type="text/javascript">
+		var pageSize = 10;
+
+		$(function() {
+			$('.time').html(time(parseInt($('.time').html())))
+		})
+
+		function time(time) {
+			var time = new Date(time);
+			var y = time.getFullYear();
+			var m = time.getMonth() + 1;
+			var d = time.getDate();
+			var h = time.getHours();
+			var mm = time.getMinutes();
+			var s = time.getSeconds();
+			return y + ' ' + m + '-' + d + "   " + h + ':' + mm + ':' + s;
+		}
+
+		$('.head_img').hover(function() {
+			$('.head_img img').css({
+				'marginTop': '40px',
+				'transform': 'scale(1.2)',
+				'border': 'solid 2px white'
+			});
+			$('.head_img div').fadeIn(1000)
+		}, function() {
+			$('.head_img img').css({
+				'marginTop': '10px',
+				'transform': 'scale(1)',
+				'border': '0'
+			});
+			$('.head_img div').css('display', 'none')
+		})
+
+		//默认展示最火帖子
+		Sort('/Bestseller');
+
+		//排序函数
+		function Sort(url) {
+			$.ajax({
+				type: "post",
+				url: url,
+				dataType: 'json',
+				success: function(res) {
+					if(res.err) {
+						alert(res.message)
+					} else {
+						var render = res.content.slice(0, pageSize);
+						var content = '';
+						for(var i = 0; i < render.length; i++) {
+							content += '<div><img src="' + render[i].headPic + '" alt="" /><a href="/blogsMessage?id=' + render[i]._id + '">' + render[i].blogsTitle + '</a><span class="time">' + time(parseInt(render[i].Date)) + '</span></div>'
+						}
+						$('.sort').html(content);
+					}
+				}
+			});
+		}
+
+		//帖子时间排序
+		$('.commonList span').click(function() {
+			for(var i = 0; i < $('.commonList span').length; i++) {
+				$('.commonList span').eq(i).removeClass('commonStyle')
+			}
+			$(this).addClass('commonStyle')
+			//最火帖子
+			if($(this)[0] == $('.commonList span').eq(0)[0]) {
+				Sort('/Bestseller')
+				//最新帖子
+			} else if($(this)[0] == $('.commonList span').eq(1)[0]) {
+				Sort('/newBlogs');
+			}
+			//判断当前是最火博客还是最新博客      添加不同分页器的点击事件
+			sortState()
+
+			for(var i = 0; i < $('.button').length; i++) {
+				$('.button').eq(i).removeClass('active')
+			}
+			$('.button').eq(0).addClass('active')
+		})
+
+		//判断当前状态是最火博客还是最新博客
+		function judgeState() {
+			if($('.commonList span').eq(0).attr('class') == 'commonStyle') {
+				return '/Bestseller';
+			} else if($('.commonList span').eq(1).attr('class') == 'commonStyle') {
+				return '/newBlogs';
+			}
+		}
+
+		createPaging(function(){
+			sortState()
+		})
+
+		//生成分页器
+		function createPaging(callback) {
+			var state = judgeState();
+			$.ajax({
+				type: "post",
+				url: state,
+				dataType: 'json',
+				success: function(res) {
+					var pageNum = res.content.length % pageSize == 0 ? res.content.length / pageSize : Math.floor(res.content.length / pageSize) + 1;
+					if(pageNum <= 0){
+						pageNum = 1;
+					}
+					console.log(pageNum)
+					var content = '';
+					for(var i = 1; i <= pageNum; i++) {
+						content += '<li class="button"><a href="###">' + i + '</a></li>';
+					}
+					$('.previous').after($(content))
+					$('.button').eq(0).addClass('active');
+					$('.Page').css('display','block');
+					callback()
+				}
+			})
+		}
+
+		//点击分页器渲染页面
+		function paging(url, page, pageSize) {
+			$.ajax({
+				type: "post",
+				url: url,
+				dataType: 'json',
+				success: function(res) {
+					var render = res.content.slice((page - 1) * pageSize, page * pageSize);
+					var content = '';
+					for(var i = 0; i < render.length; i++) {
+						content += '<div><img src="' + render[i].headPic + '" alt="" /><a href="/blogsMessage?id=' + render[i]._id + '">' + render[i].blogsTitle + '</a><span class="time">' + time(parseInt(render[i].Date)) + '</span></div>'
+					}
+					$('.sort').html(content);
+				}
+			})
+		}
+
+		//封装分页器点击事件
+		function pagingClick(url) {
+			$('.pagination li').unbind('click');
+			$('.pagination li').click(function() {
+				//点击上一页
+				if($(this)[0] == $('.previous')[0]) {
+					if($('.button').eq(0).attr('class') != 'button active') {
+						var active;
+						for(var i = 0; i < $('.button').length; i++) {
+							if($('.button').eq(i).attr('class') == 'button active') {
+								active = $('.button').eq(i).index();
+							}
+							$('.button').eq(i).removeClass('active')
+						}
+						$('.button').eq(active - 2).addClass('active');
+						paging(url, active - 1, pageSize)
+					}
+					//点击下一页
+				} else if($(this)[0] == $('.next')[0]) {
+					if($('.button:last').attr('class') != 'button active') {
+						var active;
+						for(var i = 0; i < $('.button').length; i++) {
+							if($('.button').eq(i).attr('class') == 'button active') {
+								active = $('.button').eq(i).index();
+							}
+							$('.button').eq(i).removeClass('active')
+						}
+						$('.button').eq(active).addClass('active');
+						paging(url, active + 1, pageSize)
+					}
+				} else {
+					for(var i = 0; i < $('.button').length; i++) {
+						$('.button').eq(i).removeClass('active')
+					}
+					$(this).addClass('active')
+					paging(url, $(this).index(), pageSize)
+				}
+			})
+		}
+
+		//分页器前端实现    最火博客分页和最新博客分页
+		function sortState() {
+			//判断当前是最新博客还是最火博客
+			var state = judgeState();
+			//默认展示第一页数据
+			paging(state, 1, pageSize)
+			//分页器按钮点击事件
+			pagingClick(state)
+		}
+		
+		/*
+		 *
+		 * 判断PC端与WAP端
+		 */
+		var mobile_bs = {
+			versions: function() {
+				var u = navigator.userAgent;
+				return {
+					trident: u.indexOf('Trident') > -1, //IE内核
+					presto: u.indexOf('Presto') > -1, //opera内核
+					webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+					gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+					mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/) && u.indexOf('QIHU') && u.indexOf('QIHU') > -1 && u.indexOf('Chrome') < 0, //是否为移动终端
+					ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+					android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+					iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+					iPad: u.indexOf('iPad') > -1, //是否iPad
+					webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+				}
+			}()
+		};
+
+		if(mobile_bs.versions.mobile) {
+			if(mobile_bs.versions.android || mobile_bs.versions.iPhone || mobile_bs.versions.iPad || mobile_bs.versions.ios) {
+				$('.time').css('display','none');
+				$('.nav').css('marginBottom','40px');
+				$(".head_img").unbind("mouseenter").unbind("mouseleave");
+			}
+		}
+	</script>
+
+</html>

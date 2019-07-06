@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>博客</title>
+		<link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			@font-face{
+				font-family:布丁体;
+				src: url(../public/font/字魂27号-布丁体.ttf);
+			}
+			.nav{
+				padding: 0 10%;
+				height: 60px;
+				background: #444;
+			}
+			.head{
+				height: 100%;
+				float: right;
+				position: relative;
+			}
+			.head_img{
+				height: 100%;
+				position: relative;
+				z-index: 10;
+			}
+			.head_img img{
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+				margin-top: 10px;
+				transition: all 0.5s linear;
+			}
+			.head_img>div{
+				width: 180px;
+				height: 200px;
+				position: absolute;
+				left: -70px;
+				top: 60px;
+				z-index: -1;
+				display: none;
+				background-color: white;
+				box-shadow:2px 2px 2px 4px rgba(0,0,0,0.1);
+			}
+			.head_img>div>div{
+				height: 30px;
+			}
+			.head_img>div>p{
+				text-align: center;
+				font-family: 布丁体;
+			}
+			.out{
+				position: absolute;
+				right: 10px;
+				bottom: 10px;
+				color: rgb(180,180,180);
+				font-size: 15px;
+				text-decoration: none;
+			}
+			.nav_list {
+				float: left;
+			}
+			
+			.nav_list li {
+				list-style: none;
+				display: flex;
+			}
+			
+			.nav_list span {
+				line-height: 60px;
+			}
+			.nav_list a {
+				text-decoration: none;
+				color: white;
+				padding: 7px 9px;
+				margin-top:13px;
+				margin-left: 3%;
+				white-space: nowrap;
+			}
+			.nav_style {
+				background-color: #80bd01;
+				border-radius: 4px;
+			}
+			/*发博客*/
+			.sendBlogs{
+				width: 80%;
+				margin: auto;
+			}
+			.sendBlogs>span{
+				font-family: 布丁体;
+				font-size: 20px;
+			}
+			.sendBlogs>textarea{
+				width: 100%;
+				height: 150px;
+				resize:none;
+				box-sizing: border-box;
+				padding: 5px;
+				font-size: 18px;
+				font-family: 布丁体;
+				margin-top: 10px;
+				border-radius: 4px;
+				border: 1px solid #ddd;
+			}
+			.sendBlogs button{
+				background-color: rgb(100, 155, 10);
+				padding: 10px 20px;
+				color: white;
+				float: right;
+				outline-style: none;
+				margin-top: 10px;
+			}
+			.sendBlogs div p{
+				font-family: 布丁体;
+				font-size: 20px;
+			}
+			.sendBlogs div input{
+				width: 100%;
+				height: 40px;
+				border: 1px solid #ddd;
+				color: #aaa;
+				font-size: 14px;
+				padding: 10px;
+				vertical-align: middle;
+				border-radius: 4px;
+				box-sizing: border-box;
+				margin: 10px 0;
+				font-family: 布丁体;
+				font-size: 18px;
+			}
+		</style>
+	</head>
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	<body>
+		<div class="nav">
+			<div class="nav_list">
+				<li>
+						<a href="/home">首页</a>
+						<a href="/blogs" class="nav_style">发起博客</a>
+						<a href="/chat">在线聊天</a>
+				</li>
+			</div>
+			<div class="head">
+				<div class="head_img">
+					<a href="/edit"><img src="{{ ret.headPic }}" alt="" /></a>
+					<div>
+						<div></div>
+						<p>{{ ret.userName }}</p>
+						<a href="/out" class="out">退出</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="time" height="120" width="150" align="center"><embed height="120" width="150" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" src="http://chabudai.sakura.ne.jp/blogparts/honehoneclock/honehone_clock_wh.swf" quality="high" autostart="1" wmode="transparent"></div>
+			<!--<embed type="application/x-shockwave-flash" src="http://cdn.abowman.com/widgets/hamster/hamster.swf" width="250" height="210" id="flashID" name="flashID" bgcolor="#FFFFFF" quality="high" flashvars="up_backgroundColor=FFFFFF" wmode="opaque" allowscriptaccess="always">-->
+		</div>
+		<div class="sendBlogs">
+			<div>
+				<p>标题</p>
+				<input type="text" placeholder="请输入标题"/>
+			</div>
+			<span>博客内容：</span>
+			<textarea></textarea>
+			<button onclick='sendBlogs()'>发表博客</button>
+		</div>
+	</body>
+	<script type="text/javascript">
+		$('.head_img').hover(function(){
+			$('.head_img img').css({
+				'marginTop':'40px',
+				'transform': 'scale(1.2)',
+				'border':'solid 2px white'
+			});
+			$('.head_img div').fadeIn(1000)
+		},function(){
+			$('.head_img img').css({
+				'marginTop':'10px',
+				'transform': 'scale(1)',
+				'border':'0'
+			});
+			$('.head_img div').css('display','none')
+		})
+		
+		//发送博客
+		function sendBlogs(){
+			if($('textarea').val() == ''){
+				alert('请输入内容')
+			}else{
+				$.ajax({
+					type:"post",
+					url:"/blogs",
+					data:{
+						title:$('.sendBlogs input').val(),
+						content:$('textarea').val(),
+					},
+					dataType:'json',
+					success:function(res){
+						console.log(res)
+						if(res.error){
+							alert(res.message)
+						}else{
+							alert(res.message)
+							$('textarea').val('')
+							$('.sendBlogs input').val('')
+						}
+						
+					}
+				});
+			}
+			
+		}
+		
+		/*
+		 *
+		 * 判断PC端与WAP端
+		 */
+		var mobile_bs = {
+			versions: function() {
+				var u = navigator.userAgent;
+				return {
+					trident: u.indexOf('Trident') > -1, //IE内核
+					presto: u.indexOf('Presto') > -1, //opera内核
+					webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+					gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+					mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/) && u.indexOf('QIHU') && u.indexOf('QIHU') > -1 && u.indexOf('Chrome') < 0, //是否为移动终端
+					ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+					android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+					iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+					iPad: u.indexOf('iPad') > -1, //是否iPad
+					webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+				}
+			}()
+		};
+
+		if(mobile_bs.versions.mobile) {
+			if(mobile_bs.versions.android || mobile_bs.versions.iPhone || mobile_bs.versions.iPad || mobile_bs.versions.ios) {
+				$('.time').css('display','none');
+				$('.nav').css('marginBottom','40px');
+				$(".head_img").unbind("mouseenter").unbind("mouseleave");
+			}
+		}
+	</script>
+</html>
