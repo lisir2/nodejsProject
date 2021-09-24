@@ -1,0 +1,14 @@
+项目介绍
+background 项目是nodejs 开发的一个后台管理项目
+background文件夹 下面是nodejs的代码
+background文件夹 下面的 client 是vue/cli3.0搭建的前端项目
+
+这里background nodejs有一个web服务，vue/cli有一个服务，我们要把项目跑起来要打开两个dos窗口进行运行服务
+解决办法 使用 nodejs 插件 concurrently 翻译 并发的意思，在background项目的package.json 里面配置
+如下
+"scripts": {
+    "client":"npm start --prefix client",  //这里意思是 npm start 在 client 文件下运行
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "dev":"concurrently \"npm run server\" \"npm run client\""  //这里使用concurrently 开启多并发 启动多个服务
+  },

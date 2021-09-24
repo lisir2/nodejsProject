@@ -1,0 +1,7 @@
+此文档是学习开发这个项目的一些介绍：
+项目类型：后台管理项目，设计权限登陆，注册，权限登陆，数据分页渲染等功能。
+项目使用框架：前端使用vue-cli 3.0，后台使用 mongodb数据库，nodejs搭建的后台服务。
+前端使用技术：vue-cli 3.0搭建前端项目，使用vuex,vue-router,axios,interceptors拦截请求和响应。
+后台使用技术：使用nodejs搭建后台服务，使用node框架express（类似于js和jq的差别，express封装了nodejs的方法）。
+项目运行环境：nodejs 环境，mongodb数据库安装，配置环境变量，vue-cli 3.0,vue脚手架3.0以上，在根目录运行npm install dev同时跑起后台服务和前端服务。
+运行命令：在根目录运行（background文件目录） npm run dev
